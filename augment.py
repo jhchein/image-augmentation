@@ -74,7 +74,7 @@ class Data_augmentation:
     
 if __name__ == "__main__":
     origin_filetype = "jpg"
-    files = glob.glob(f"{os.getcwd()}**/*.{origin_filetype}", recursive=True)
+    files = glob.glob(f"{os.getcwd()}/*.{origin_filetype}", recursive=True)
     output_path = os.path.join(os.getcwd(), "output") 
     os.makedirs(output_path, exist_ok=True)
 
