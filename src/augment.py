@@ -3,7 +3,7 @@ import os
 import glob
 import cv2
 
-from params import vflip_probability, hflip_probability, random_angle_range, zoom_range
+from params import vflip_probability, hflip_probability, random_angle_range, zoom_range, origin_filetype, target_filetype
 
 class Data_augmentation:
     def __init__(self, full_filename):
@@ -49,7 +49,7 @@ class Data_augmentation:
         return image 
     
     def save(self, save_path, image, vflip, hflip, angle, scale):
-        output_filename = os.path.join(save_path, f"{self.name}_{vflip}_{hflip}_{angle:003}_{scale:.4f}.jpg")
+        output_filename = os.path.join(save_path, f"{self.name}_{vflip}_{hflip}_{angle:003}_{scale:.4f}.{target_filetype}")
         cv2.imwrite(output_filename, image)
         return output_filename
 
@@ -73,7 +73,6 @@ class Data_augmentation:
     
     
 if __name__ == "__main__":
-    origin_filetype = "jpg"
     files = glob.glob(f"{os.getcwd()}/*.{origin_filetype}", recursive=True)
     output_path = os.path.join(os.getcwd(), "output") 
     os.makedirs(output_path, exist_ok=True)

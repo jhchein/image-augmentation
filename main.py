@@ -1,11 +1,9 @@
 import os
 import glob
-from augment import Data_augmentation
+from src.augment import Data_augmentation
+from params import path, output_path, origin_filetype
 
-path = "C:\\Users\\hehein\\Downloads\\"
-output_path = os.path.join(path, "output")
 os.makedirs(output_path, exist_ok=True)
-origin_filetype = ".jpg"
 
 origin_images = [f for f in glob.glob(f"{path}/*{origin_filetype}", recursive=True)]
 
