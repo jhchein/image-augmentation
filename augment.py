@@ -3,6 +3,8 @@ import os
 import glob
 import cv2
 
+from params import vflip_probability, hflip_probability, random_angle_range, zoom_range
+
 class Data_augmentation:
     def __init__(self, full_filename):
         '''
@@ -13,9 +15,7 @@ class Data_augmentation:
         self.path, self.filename = os.path.split(full_filename)
         self.name, self.extension = os.path.splitext(self.filename)
         self.image = cv2.imread(full_filename)
-        self.vflip_probability = .5
-        self.hflip_probability = .5
-        self.random_angle_range = (0, 90)
+
         # self.gaussian_noise_probability = .2
 
     def rotate(self, image, angle=90, scale=1.0):
@@ -49,7 +49,7 @@ class Data_augmentation:
         return image 
     
     def save(self, save_path, image, vflip, hflip, angle, scale):
-        output_filename = os.path.join(save_path, f"{self.name}_{vflip}_{hflip}_{angle}_{scale:.4f}.jpg")
+        output_filename = os.path.join(save_path, f"{self.name}_{vflip}_{hflip}_{angle:003}_{scale:.4f}.jpg")
         cv2.imwrite(output_filename, image)
         return output_filename
 
@@ -60,9 +60,9 @@ class Data_augmentation:
         ''' 
         img = self.image.copy()
 
-        vflip, hflip = random.random()<=self.vflip_probability, random.random()<=self.hflip_probability
-        rand_angle = random.randint(0,359)
-        rand_scale = random.uniform(0.9,1.05)
+        vflip, hflip = random.random()<=vflip_probability, random.random()<=hflip_probability
+        rand_angle = random.randint(*random_angle_range)
+        rand_scale = random.uniform(*zoom_range)
         
         img = self.flip(img, vflip=vflip, hflip=hflip)
         img = self.rotate(img, angle=rand_angle, scale=rand_scale)
